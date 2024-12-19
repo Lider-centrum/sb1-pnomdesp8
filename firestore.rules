@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public write access to catalog requests
+    match /catalogRequests/{document=**} {
+      allow read: if false;  // Restrict reading to authenticated users only
+      allow write: if true;  // Allow anyone to submit a catalog request
+    }
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
